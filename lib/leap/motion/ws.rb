@@ -2,14 +2,16 @@ require 'rubygems'
 require 'websocket-eventmachine-client'
 require 'json'
 require 'leap/motion/ws/frame'
+require 'leap/motion/utils/history'
 
 module LEAP
   class Motion
     class WS
       def initialize(options = {})
-        @options = {:uri => "ws://127.0.0.1:6437", :enable_gesture => false}.merge(options)
+        @options = {:uri => "ws://127.0.0.1:6437", :enable_gesture => false, :history_size => 1000}.merge(options)
         @gesture_enables = false
         @ws = nil
+        @history = LEAP::Motion::Utils::History.new(@options[:history_size])
       end
 
       def gestures?
@@ -35,7 +37,9 @@ module LEAP
           @ws.onmessage do |msg, type|
             message = JSON(msg)
             if message.key?("id") and message.key?("timestamp")
-              on_frame LEAP::Motion::WS::Frame.new(message) 
+              frame = LEAP::Motion::WS::Frame.new(message)
+              @history << frame
+              on_frame frame
             end
           end
 

@@ -10,7 +10,6 @@ Rake::TestTask.new(:test) do |test|
   test.pattern = 'test/**/test_*.rb'
   test.verbose = true
 end
-task :test => :compile
 
 task :default => :test
 
