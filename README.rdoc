@@ -4,7 +4,7 @@
 
 Ruby interface to the Leap Motion Controller (via WebSocket)
 
-If you don't want to use a WebSocket interface, see http://https://github.com/glejeune/ruby-leap-motion
+If you don't want to use a WebSocket interface, see https://github.com/glejeune/ruby-leap-motion
 
 = SYNOPSIS
 
