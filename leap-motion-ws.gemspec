@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
 
   s.authors  = ["Gregoire Lejeune"]
   s.email    = "gregoire.lejeune@free.fr"
-  s.homepage = "http://github.com/glejeune/leap-motion-ws"
+  s.homepage = "https://github.com/glejeune/ruby-leap-motion-ws"
   s.license  = "MIT"
 
   s.files      = `git ls-files`.split("\n")
