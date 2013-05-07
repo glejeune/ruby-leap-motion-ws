@@ -1,0 +1,29 @@
+# rcov generated
+coverage
+
+# rdoc generated
+rdoc
+
+# yard generated
+doc
+.yardoc
+
+# bundler
+.bundle
+
+# jeweler generated
+pkg
+
+# For MacOS:
+.DS_Store
+.rake_tasks
+
+# For ext
+Makefile
+ext/config.h
+*.bundle
+*.so
+*.dll
+*.swp
+*.log
+*.o
