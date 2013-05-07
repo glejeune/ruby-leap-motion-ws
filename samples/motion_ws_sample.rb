@@ -8,7 +8,10 @@ class LeapTest < LEAP::Motion::WS
   end
 
   def on_frame frame
-    puts "Frame ##{frame.id}, timestamp: #{frame.timestamp}, hands: #{frame.hands.size}, pointables: #{frame.pointables.size}, gestures: #{frame.gestures.size}"
+    puts "Frame ##{frame.id}, timestamp: #{frame.timestamp}, hands: #{frame.hands.size}, pointables: #{frame.pointables.size}"
+    frame.gestures.each do |gesture|
+      puts "  -> #{gesture.type} / #{gesture.state}"
+    end
   end
 
   def on_disconnect
@@ -17,7 +20,7 @@ class LeapTest < LEAP::Motion::WS
   end
 end
 
-leap = LeapTest.new()
+leap = LeapTest.new(:enable_gesture => true)
 
 Signal.trap("TERM") do
   puts "Terminating..."
