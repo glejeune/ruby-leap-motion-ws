@@ -19,7 +19,7 @@ module LEAP
       def gesture!
         unless @ws.nil?
           data = JSON "enableGestures" => true
-          @ws.send data
+          @gesture_enables = @ws.send data
         end
       end
 
