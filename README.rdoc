@@ -1,4 +1,4 @@
-= WS-LEAP-Motion
+= leap-motion-ws
 
 = DESCRIPTION
 
