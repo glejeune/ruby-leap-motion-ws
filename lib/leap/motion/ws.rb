@@ -6,7 +6,9 @@ require 'leap/motion/utils/history'
 
 module LEAP
   class Motion
-    # To interface with the Leap Motion, create a subclass of WS :
+    # Public: Class to be subclassed to interface with the Leap Motion
+    #
+    # Example
     #
     #   class MyLeap < LEAP::Motion::WS
     #     def initialize(...)
@@ -32,28 +34,30 @@ module LEAP
     #
     # on-frame is the only mandatory function.
     class WS
-      # Create a new WS instance
-      # 
-      # Avallables options are :
-      # * :uri : URI for the WebSocket (default: ws://127.0.0.1:6437)
-      # * :enable_gesture : boolean to indicate if we want to enable gesture or not (default: false)
-      # * :history_size : Size of the history (default: 1000)
+      # Public: Initialize a LEAP::Motion::WS 
+      #
+      # options - The Hash options used to initialize the Leap access (default: {:uri => "ws://127.0.0.1:6437", :enable_gesture => false, :history_size => 1000}):
+      #       :uri - the String uri for the WebSocket::EventMachine::Client connection (optional)
+      #       :enable_gesture - boolean to indicate if we want to enable gesture or not (optional)
+      #       :history_size : the Integer size of the history ()
       def initialize(options = {})
         @options = {:uri => "ws://127.0.0.1:6437", :enable_gesture => false, :history_size => 1000}.merge(options)
         @history = LEAP::Motion::Utils::History.new(@options[:history_size])
       end
 
-      # Return true if gesture ar enabled, false otherwise
+      # Public: Return true if gestures are enabled, false otherwise
       def gestures?
         options[:enable_gesture] 
       end
 
-      # Return the history
+      # Public: Return the Frame History
       def history
         @history ||= LEAP::Motion::Utils::History.new(options[:history_size])
       end
 
-      # Enable gestures
+      # Public: Enable gestures
+      #
+      # Return nothing.
       def gesture!
         unless @ws.nil?
           data = JSON "enableGestures" => true
@@ -61,7 +65,18 @@ module LEAP
         end
       end
 
-      # Start the interface
+      # Public: Start the interface
+      #
+      # enable_gesture : boolean to indicate if we want to enable gesture or not (default: false)
+      #
+      # Examples
+      #
+      #   class MyLeap < LEAP::Motion::WS
+      #     ...
+      #   end
+      #   MyLeap.new.start
+      #
+      # Returns self
       def start(enable_gesture = false)
         EM.run do
           ws.onopen do
@@ -86,21 +101,52 @@ module LEAP
             on_disconnect if respond_to? :on_disconnect
           end
         end
+
+        return self
       end
 
-      # Stop the interface
+      # Public: Start the interface
+      #
+      # enable_gesture : boolean to indicate if we want to enable gesture or not (default: false)
+      #
+      # Examples
+      #
+      #   class MyLeap < LEAP::Motion::WS
+      #     ...
+      #   end
+      #   MyLeap.start
+      #
+      # Returns the LEAP::Motion::WS subclass object
+      def self.start(enable_gesture = false)
+        _leap = new
+        _leap.start(enable_gesture)
+      end
+
+
+      # Public: Stop the interface
+      #
+      # Examples
+      #
+      #   class MyLeap < LEAP::Motion::WS
+      #     ...
+      #   end
+      #   my_leap = MyLeap.start
+      #   ...
+      #   my_leap.stop
+      #
+      # Returns self
       def stop
         EM::stop_event_loop
       end
 
       private
 
-      # Get options hash
+      # private: Get the options hash
       def options
         @options ||= {:uri => "ws://127.0.0.1:6437", :enable_gesture => false, :history_size => 1000}
       end
 
-      # Return the WebSocket connection
+      # Private: Get the WebSocket::EventMachine::Client connection
       def ws
         @ws ||= WebSocket::EventMachine::Client.connect(:uri => options[:uri])
       end
