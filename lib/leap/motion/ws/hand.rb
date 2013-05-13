@@ -13,11 +13,10 @@ module LEAP
         end
 
         def initialize(data)
-          @data = data
-        end
-
-        def method_missing(mid)
-          @data[mid.id2name]
+          data.each do |k, v|
+            instance_variable_set("@#{k}", v)
+            self.class.send(:define_method, k.to_sym, lambda { instance_variable_get("@#{k}") })
+          end
         end
       end
     end

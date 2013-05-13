@@ -10,7 +10,7 @@ class LeapTest < LEAP::Motion::WS
   def on_frame frame
     puts "Frame ##{frame.id}, timestamp: #{frame.timestamp}, hands: #{frame.hands.size}, pointables: #{frame.pointables.size}" if frame.gestures.size > 0
     frame.gestures.each do |gesture|
-      puts "  -> #{gesture.id} #{gesture.type} / #{gesture.state}"
+      puts "  -> ##{gesture.id} : #{gesture.type} / #{gesture.state}"
     end
   end
 
