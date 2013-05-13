@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    leap-motion-ws (0.0.2)
+    leap-motion-ws (0.0.3)
       json
       websocket-eventmachine-client
 
