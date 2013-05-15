@@ -42,7 +42,7 @@ module LEAP
 
             @running = true
             @base ||= LEAP::Motion::Utils::WebSocket::Base.new(@uri)
-            @on_connect.call if @on_connect
+            @on_open.call if @on_open
 
             while data = @unsend_messages.shift
               send(data)

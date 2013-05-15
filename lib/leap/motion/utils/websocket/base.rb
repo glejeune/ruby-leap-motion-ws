@@ -11,8 +11,8 @@ module LEAP
         class Base
           class Error < StandardError; end
 
-          def initialize(uri)
-            uri = URI.parse(uri)
+          def initialize(arg)
+            uri = URI.parse(arg)
 
             if uri.scheme == "ws"
               default_port = 80
@@ -29,7 +29,7 @@ module LEAP
               @socket = sslify(socket)
             end
 
-            @hs = WebSocket::Handshake::Client.new(:uri => uri)
+            @hs = ::WebSocket::Handshake::Client.new(:uri => arg)
             write @hs.to_s
             flush
 
@@ -38,7 +38,7 @@ module LEAP
             end 
 
             raise Error, "connection error: #{@hs.error}" unless @hs.valid?
-            @frame = WebSocket::Frame::Incoming::Server.new(:version => @hs.version)
+            @frame = ::WebSocket::Frame::Incoming::Server.new(:version => @hs.version)
           end
 
           def close
@@ -50,7 +50,7 @@ module LEAP
           end
 
           def send(data, type = :text)
-            write WebSocket::Frame::Outgoing::Server.new(:version => @hs.version, :data => data, :type => type).to_s
+            write ::WebSocket::Frame::Outgoing::Server.new(:version => @hs.version, :data => data, :type => type).to_s
             flush
           end
 
@@ -107,9 +107,3 @@ module LEAP
   end
 end
 
-require 'pp'
-c = Client.new(:uri => "ws://127.0.0.1:6437")
-while true
-  pp c.receive
-end
-c.close

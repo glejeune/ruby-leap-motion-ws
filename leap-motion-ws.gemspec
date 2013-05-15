@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.require_paths    = ["lib"]
 
   s.add_dependency("json")
+  s.add_dependency("websocket")
 
   s.add_development_dependency("shoulda")
   s.add_development_dependency("bundler")
