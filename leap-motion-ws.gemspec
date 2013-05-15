@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = ["LICENSE.txt","README.rdoc"]
   s.require_paths    = ["lib"]
 
-  s.add_dependency("websocket-eventmachine-client")
   s.add_dependency("json")
 
   s.add_development_dependency("shoulda")

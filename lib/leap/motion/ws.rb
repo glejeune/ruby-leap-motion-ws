@@ -1,8 +1,8 @@
 require 'rubygems'
-require 'websocket-eventmachine-client'
 require 'json'
 require 'leap/motion/ws/frame'
 require 'leap/motion/utils/history'
+require 'leap/motion/utils/websocket/client'
 
 module LEAP
   class Motion
@@ -78,7 +78,7 @@ module LEAP
       #
       # Returns self
       def start(enable_gesture = false)
-        EM.run do
+        ws.run do
           ws.onopen do
             on_connect if respond_to? :on_connect
             gesture! if enable_gesture or options[:enable_gesture]
@@ -136,7 +136,7 @@ module LEAP
       #
       # Returns self
       def stop
-        EM::stop_event_loop
+        ws.stop
       end
 
       private
@@ -146,9 +146,9 @@ module LEAP
         @options ||= {:uri => "ws://127.0.0.1:6437", :enable_gesture => false, :history_size => 1000}
       end
 
-      # Private: Get the WebSocket::EventMachine::Client connection
+      # Private: Get the Utils::WebSocket::Client instance
       def ws
-        @ws ||= WebSocket::EventMachine::Client.connect(:uri => options[:uri])
+        @ws ||= LEAP::Motion::Utils::WebSocket::Client.new(options[:uri])
       end
     end
   end
