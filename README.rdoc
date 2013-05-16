@@ -1,5 +1,7 @@
 = leap-motion-ws
 
+{<img src="https://travis-ci.org/glejeune/ruby-leap-motion-ws.png?branch=master" alt="Build Status" />}[https://travis-ci.org/glejeune/ruby-leap-motion-ws]
+
 = DESCRIPTION
 
 Ruby interface to the Leap Motion Controller (via WebSocket)
